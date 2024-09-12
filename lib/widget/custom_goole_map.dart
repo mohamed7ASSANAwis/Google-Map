@@ -49,7 +49,7 @@ class _CustomGooleMapState extends State<CustomGooleMap> {
     );
   }
 }
-
+//eeeeeeeeee
 //1-zoom
 //zoom world view 0=>3
 //zoom country  view 4=>6
