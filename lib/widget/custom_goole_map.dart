@@ -12,12 +12,14 @@ class _CustomGooleMapState extends State<CustomGooleMap> {
   late CameraPosition initialCameraPosition;
   late GoogleMapController googleMapController;
   Set<Marker> marker = {};
+  //Set<Circle> circle = {};
 
   @override
   void initState() {
     initialCameraPosition = CameraPosition(
-        zoom: 10, target: LatLng(29.373088961975537, 31.172350072218592));
+        zoom: 6, target: LatLng(29.373088961975537, 31.172350072218592));
     initiMarker();
+    // initCicle();
     super.initState();
   }
 
@@ -30,6 +32,8 @@ class _CustomGooleMapState extends State<CustomGooleMap> {
   @override
   Widget build(BuildContext context) {
     return GoogleMap(
+
+        //circles: circle,
         markers: marker,
         // mapType: MapType.terrain,
         // cameraTargetBounds:cameraTargetBounds,
@@ -58,7 +62,48 @@ class _CustomGooleMapState extends State<CustomGooleMap> {
     marker.add(myMarker);
     setState(() {});
   }
-
+// void initCicle(){
+//   Circle moCircle=
+//   Circle(
+//     fillColor: Colors.red.withOpacity(.5),
+//     center: LatLng(29.321000571700907, 31.196205280858905),
+//     radius: 10000,
+//     circleId: CircleId('1'),
+//   );
+//   circle.add(moCircle);
+// }
+//   void initPolyLine() {
+//     var polyline= Polyline(
+//         visible: true,
+//         endCap: Cap.roundCap,
+//         startCap: Cap.roundCap,
+//         width: 5,
+//         geodesic: true,
+//         zIndex: 5,
+//         color: Colors.red,
+//         polylineId: PolylineId("1"),
+//
+//         points: [
+//           LatLng(30.00809441992408, 31.236445320751628),
+//           LatLng(29.34530526191757, 31.19633184021425),
+//           LatLng(29.31912731024233, 30.840243604224472),
+//         ]
+//     );
+//     var polyline1= Polyline(
+//         zIndex: 1,
+//         polylineId: PolylineId("2"),
+//
+//         points: [
+//           LatLng(29.97787260473582, 30.718191971012264),
+//           LatLng(28.9930620676505, 31.58073567737086),
+//
+//         ]
+//     );
+//     polyLine.add(polyline);
+//     polyLine.add(polyline1);
+//   }
+//
+// // void initPolyGonse() {}
 //و هنا نقدر تتحكم في حكم marker *******
 //   void initiMarker()async {
 //     var BitIcon=  BitmapDescriptor.fromBytes(await getImageFromRawData("assets/images/icon_location1.png", 100));
