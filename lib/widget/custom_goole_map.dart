@@ -22,7 +22,7 @@ class _CustomGooleMapState extends State<CustomGooleMap> {
   void initState() {
     initialCameraPosition = CameraPosition(
         zoom: 6, target: LatLng(29.373088961975537, 31.172350072218592));
-    initiMarker();
+    //initiMarker();
     //location=Location();
     locationService = LocationService();
     //checkAndRequestLocationService();
@@ -62,16 +62,16 @@ class _CustomGooleMapState extends State<CustomGooleMap> {
 //     googleMapController!.setMapStyle(intiStyle);
 //   }
 
-  void initiMarker() async {
-    var BitIcon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(), "assets/images/icon_location1.png");
-    var myMarker = Marker(
-        icon: BitIcon,
-        markerId: MarkerId("1"),
-        position: LatLng(29.349076099818955, 31.209870474283296));
-    marker.add(myMarker);
-    setState(() {});
-  }
+  // void initiMarker() async {
+  //   var BitIcon = await BitmapDescriptor.fromAssetImage(
+  //       ImageConfiguration(), "assets/images/icon_location1.png");
+  //   var myMarker = Marker(
+  //       icon: BitIcon,
+  //       markerId: MarkerId("1"),
+  //       position: LatLng(29.349076099818955, 31.209870474283296));
+  //   marker.add(myMarker);
+  //   setState(() {});
+  // }
 
   //
   // void getLocationData(){
