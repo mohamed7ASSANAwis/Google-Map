@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_map/unite/location_service.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 class CustomGooleMap extends StatefulWidget {
   const CustomGooleMap({super.key});
@@ -10,24 +11,31 @@ class CustomGooleMap extends StatefulWidget {
 class _CustomGooleMapState extends State<CustomGooleMap> {
   //late CameraTargetBounds cameraTargetBounds;
   late CameraPosition initialCameraPosition;
-  late GoogleMapController googleMapController;
+  GoogleMapController? googleMapController;
   Set<Marker> marker = {};
   //Set<Circle> circle = {};
+  // late Location location;
+  late LocationService locationService;
+  bool isFirstCall = true;
 
   @override
   void initState() {
     initialCameraPosition = CameraPosition(
         zoom: 6, target: LatLng(29.373088961975537, 31.172350072218592));
     initiMarker();
+    //location=Location();
+    locationService = LocationService();
+    //checkAndRequestLocationService();
     // initCicle();
+    upDateMyLocation();
     super.initState();
   }
 
-  @override
-  void dispose() {
-    googleMapController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   googleMapController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -40,17 +48,19 @@ class _CustomGooleMapState extends State<CustomGooleMap> {
         zoomControlsEnabled: false,
         onMapCreated: (controller) {
           googleMapController = controller;
-          intiMapStyle();
+          //  intiMapStyle();
+          //  location.getLocation();
+          //strem on location
         },
         initialCameraPosition: initialCameraPosition);
   }
 
 //onMapCreated مينفعش استدعي دي في inst علشان هضرب لازم في
-  void intiMapStyle() async {
-    var intiStyle = await DefaultAssetBundle.of(context)
-        .loadString("assets/map_style/stander.json");
-    googleMapController.setMapStyle(intiStyle);
-  }
+//   void intiMapStyle() async {
+//     var intiStyle = await DefaultAssetBundle.of(context)
+//         .loadString("assets/map_style/stander.json");
+//     googleMapController!.setMapStyle(intiStyle);
+//   }
 
   void initiMarker() async {
     var BitIcon = await BitmapDescriptor.fromAssetImage(
@@ -61,6 +71,60 @@ class _CustomGooleMapState extends State<CustomGooleMap> {
         position: LatLng(29.349076099818955, 31.209870474283296));
     marker.add(myMarker);
     setState(() {});
+  }
+
+  //
+  // void getLocationData(){
+  //   location.changeSettings(
+  //     distanceFilter: 2,
+  //   );
+  //   location.onLocationChanged.listen((locationData){
+  //     var cameraPosition=CameraPosition(target: LatLng(locationData.latitude!,locationData.longitude!),zoom: 15);
+  //     var myMarker=Marker(markerId: MarkerId("MarkerId"),position: LatLng(locationData.latitude!,locationData.longitude!));
+  //     marker.add(myMarker);
+  //     setState(() {
+  //
+  //     });
+  //     googleMapController?.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+  //   });
+  // }
+  void setMyLocatonMarker(locationData) {
+    var myMarker = Marker(
+        markerId: MarkerId("MarkerId"),
+        position: LatLng(locationData.latitude!, locationData.longitude!));
+    marker.add(myMarker);
+    setState(() {});
+  }
+
+  void setMyCamerPosition(locationData) {
+    // var cameraPosition = CameraPosition(
+    //     target: LatLng(locationData.latitude!, locationData.longitude!),
+    //     zoom: 15);
+    if (isFirstCall) {
+      var cameraPosition = CameraPosition(
+          target: LatLng(locationData.latitude!, locationData.longitude!),
+          zoom: 15);
+      googleMapController
+          ?.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+      isFirstCall = false;
+    } else {
+      googleMapController?.animateCamera(CameraUpdate.newLatLng(
+          LatLng(locationData.latitude!, locationData.longitude!)));
+    }
+  }
+
+  void upDateMyLocation() async {
+    await locationService.checkAndRequestLocationService();
+    var locationPermission =
+        await locationService.checkAndRequestLocationPermission();
+    if (locationPermission) {
+      locationService.getRealTimeLocationData((locationData) {
+        setMyLocatonMarker(locationData);
+        setMyCamerPosition(locationData);
+      });
+    } else {
+      //show
+    }
   }
 // void initCicle(){
 //   Circle moCircle=
