@@ -47,9 +47,16 @@ class _CustomGoogleMapVeiwState extends State<CustomGoogleMapVeiw> {
 
   void updataCurrentLocation() async {
     try {
+
       var  locationData=await locationService.getLocation();
-    var cameraPosition=  CameraPosition(target: LatLng(locationData.latitude!, locationData.longitude!),zoom: 10);
-  googleMapController.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+      LatLng currentPosition=LatLng(locationData.latitude!, locationData.longitude!);
+    var myMarker=  Marker(markerId: MarkerId("1"),position:currentPosition );
+      markers.add(myMarker);
+      setState(() {
+
+      });
+    var cameraPosition=  CameraPosition(target:currentPosition ,zoom: 10);
+  googleMapController .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
     } on LocationServiceException catch (e) {
     } on LocationPermissionException catch (e) {
     } catch (e) {}
