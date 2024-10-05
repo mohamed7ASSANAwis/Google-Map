@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_map/route_track_app/google_map_veiw.dart';
+import 'package:google_map/route_track_app/route_track_app.dart';
 import 'package:google_map/widget/custom_goole_map.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -33,7 +35,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: CustomGooleMap(),
+      home: CustomGoogleMapVeiw(),
 
     );
   }
