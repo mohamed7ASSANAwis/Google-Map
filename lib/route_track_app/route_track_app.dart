@@ -7,6 +7,8 @@ class RouteTrackApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  CustomGoogleMapVeiw();
+    return  Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: CustomGoogleMapVeiw());
   }
 }

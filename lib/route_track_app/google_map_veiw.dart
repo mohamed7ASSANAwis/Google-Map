@@ -13,28 +13,43 @@ class _CustomGoogleMapVeiwState extends State<CustomGoogleMapVeiw> {
   late CameraPosition initialCameraPosition;
   late LocationService locationService;
   late   GoogleMapController googleMapController;
+  late TextEditingController textEditingController;
   Set<Marker> markers = {};
 
   @override
   void initState() {
+    textEditingController=TextEditingController();
     initialCameraPosition = CameraPosition(
         target: LatLng(29.321099961118627, 31.19660308460513), zoom: 10);
     initiMarker();
     locationService=LocationService();
-
+textEditingController.addListener((){
+  print(textEditingController);
+});
     super.initState();
   }
-
+@override
+  void dispose() {
+  textEditingController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
-    return GoogleMap(
-        markers: markers,
-        zoomControlsEnabled: false,
-        initialCameraPosition: initialCameraPosition,
-    onMapCreated: (controller){
-      googleMapController = controller;
-      updataCurrentLocation();
-    },
+    return Stack(
+      children: [
+        GoogleMap(
+            markers: markers,
+            zoomControlsEnabled: false,
+            initialCameraPosition: initialCameraPosition,
+        onMapCreated: (controller){
+          googleMapController = controller;
+          updataCurrentLocation();
+        },
+        ),
+        Positioned(
+        top: 16,right: 0,left: 0,
+        child: CustomTextFeild(textEditingController: textEditingController,)),
+      ],
     );
   }
 
@@ -61,4 +76,30 @@ class _CustomGoogleMapVeiwState extends State<CustomGoogleMapVeiw> {
     } on LocationPermissionException catch (e) {
     } catch (e) {}
   }
+}
+class CustomTextFeild extends StatelessWidget {
+  const CustomTextFeild({super.key, required this.textEditingController});
+final TextEditingController textEditingController;
+  @override
+  Widget build(BuildContext context) {
+    return      TextField(
+      controller: textEditingController,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.symmetric(horizontal: 16),
+          hintText: "Search",
+          fillColor: Colors.white,
+          filled: true,
+          border:buildBorder(),
+        enabledBorder: buildBorder(),
+      ),
+    );
+  }
+}
+OutlineInputBorder buildBorder(){
+  return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(24),
+      borderSide: BorderSide(
+        color: Colors.transparent,
+      )
+  );
 }
