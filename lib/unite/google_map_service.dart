@@ -11,7 +11,7 @@ class GoogleMapService {
       baseUrlGoogleMap.toString(),
       queryParameters: {
         'input': input,
-        'key': 'AIzaSyC4gTSwhUFShnUEBpmB3UPDuPJEB8N0ru4'
+        'key': ''
       },
     );
     if (response.statusCode == 200) {
